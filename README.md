@@ -1,8 +1,8 @@
 # DGMs_SoC-Project
 
-![image](https://github.com/user-attachments/assets/352a585b-3c85-4122-9bc8-44e36ed06398)
+Deep generative models are a class of machine learning models designed to generate new data samples from a learned distribution. Here's a detailed exploration of four prominent types: Diffusion Models, Generative Adversarial Networks (GANs), Variational Autoencoders (VAEs), and Flow-Based Models. Here is a summary of each of them.
 
-Deep generative models are a class of machine learning models designed to generate new data samples from a learned distribution. Here's a detailed exploration of four prominent types: Diffusion Models, Generative Adversarial Networks (GANs), Variational Autoencoders (VAEs), and Flow-Based Models.
+![image](https://github.com/user-attachments/assets/352a585b-3c85-4122-9bc8-44e36ed06398)
 
 ### 1. Generative Adversarial Networks (GANs)
 
@@ -62,7 +62,7 @@ The training objective is to maximize the likelihood of the training data under 
 - **Less Efficient Generation:** Compared to GANs, generating samples can be slower, especially if the model depth is high.
 - **Challenges in Capturing Complex Distributions:** Despite their strengths, flow-based models can struggle to capture extremely complex distributions as effectively as GANs or diffusion models.
 
-### 1. Diffusion Models
+### 4. Diffusion Model
 
 **Architecture:**
 Diffusion models are generative models that learn to generate data by reversing a diffusion process, which progressively adds noise to the data until it becomes pure noise. The model is trained to learn the reverse of this process, denoising the noisy data step-by-step to generate new samples. The process can be understood as a series of time steps, where noise is added (forward process) and then removed (reverse process).
@@ -84,4 +84,16 @@ The training objective typically minimizes a weighted sum of reconstruction loss
 - **Computationally Intensive:** Training can be computationally expensive due to the need to process multiple steps of diffusion.
 
 
-Each of these models has distinct advantages and is suited to different types of generative tasks, with ongoing research seeking to address their respective limitations.
+Each of these models has distinct advantages and is suited to different types of generative tasks, with ongoing research seeking to address their respective limitations. Each one of them is unique in its data generation approaches.
+
+Diffusion models will add noise to the data samples in the forward process and in the reverse process they will reconstruct the data samples from the noise.
+
+Generative adversarial networks(GAN) use Generator to generate the data samples and a Discriminator to check whether the generated data samples belong to the original dataset.
+Variational autoencoders use encoder-decoder architecture, In this encoder encodes the data samples into latent space and the decoder reconstructs the data samples from the latent space.
+Flow-based models use a sequence of inverse transformations to generate the image unlike other flow-based models and learn the probability distribution.
+
+For learning complex data distributions GAN and VAEs have shown outstanding results. However, both GAN and VAE lack the exact evaluation and inference of the probability distribution. This resulted in low-quality results in VAEs and challenges in the GAN training process such as model collapse and vanishing gradients, etc.
+
+Normalizing flows were proposed to solve problems faced by GANs and VAE by using inverse transformation functions. Normalizing flows does not require putting noise to generate the images and the training process of Normalizing flows is much more stable than GAN.
+
+
