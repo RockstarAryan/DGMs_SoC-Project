@@ -1,37 +1,87 @@
 # DGMs_SoC-Project
 
-Generative Adversarial Network (GAN)
-One of the most powerful AI technologies in development today is generative adversarial networks, which encompass a relatively new way for machines to learn and create that are leading to highly successful results.
+![image](https://github.com/user-attachments/assets/352a585b-3c85-4122-9bc8-44e36ed06398)
 
-Architecture and training process
-GANs are adversarial in nature and involve a game between two deep learning submodels called the generator and discriminator. 
+Deep generative models are a class of machine learning models designed to generate new data samples from a learned distribution. Here's a detailed exploration of four prominent types: Diffusion Models, Generative Adversarial Networks (GANs), Variational Autoencoders (VAEs), and Flow-Based Models.
+
+### 1. Generative Adversarial Networks (GANs)
+
+**Architecture:**
+GANs consist of two neural networks: a generator and a discriminator. The generator creates fake data samples, while the discriminator evaluates them against real data. The generator aims to produce samples that the discriminator cannot distinguish from real data, while the discriminator tries to correctly identify whether a sample is real or fake.
+
+**Training:**
+The training process is a two-player minimax game:
+- **Generator:** Tries to generate realistic data samples by maximizing the probability that the discriminator is fooled.
+- **Discriminator:** Tries to distinguish between real and generated samples by minimizing the error in its predictions.
+
+The generator and discriminator are trained alternately, which often involves complex optimization dynamics.
+
+**Strengths:**
+- **Realistic Samples:** GANs are known for generating high-quality, photorealistic images, particularly in well-structured datasets.
+- **Versatility:** They can be used for various tasks, including image synthesis, style transfer, and text-to-image generation.
+
+**Weaknesses:**
+- **Training Instability:** GANs are notoriously difficult to train, with issues like mode collapse (where the generator produces limited diversity) and non-convergence.
+- **Sensitive to Hyperparameters:** Successful training can be sensitive to hyperparameter settings and the balance between the generator and discriminator.
+
+### 2. Variational Autoencoders (VAEs)
+
+**Architecture:**
+VAEs consist of two main components: an encoder and a decoder, similar to traditional autoencoders. The encoder maps input data to a latent space distribution, typically a Gaussian, from which the decoder samples to reconstruct the original data.
+
+**Training:**
+The training objective is to maximize the evidence lower bound (ELBO), which consists of two parts:
+- **Reconstruction Loss:** Measures how well the decoder reconstructs the input data from the latent representation.
+- **KL Divergence:** Ensures that the latent space distribution remains close to a prior distribution (often a standard Gaussian).
+
+The overall goal is to generate a smooth and continuous latent space where similar points correspond to similar data samples.
+
+**Strengths:**
+- **Structured Latent Space:** VAEs provide a well-defined latent space that is useful for tasks like interpolation and data manipulation.
+- **Theoretical Foundation:** The VAE framework is grounded in probabilistic modeling, providing a clear understanding of the learned distribution.
+
+**Weaknesses:**
+- **Blurry Outputs:** The generated samples can be less sharp compared to GANs, as VAEs optimize for reconstruction and distribution similarity rather than direct realism.
+- **Trade-off Between Reconstruction and Variability:** There's often a trade-off between how well the model reconstructs input data and the diversity of generated samples.
+
+### 3. Flow-Based Models
+
+**Architecture:**
+Flow-based models are generative models that use a series of invertible transformations to map complex data distributions to a simple base distribution (like a Gaussian). These transformations are constructed in a way that allows exact computation of the data likelihood, making the model both expressive and tractable.
+
+**Training:**
+The training objective is to maximize the likelihood of the training data under the model by transforming it through a series of invertible, differentiable mappings. Since these mappings are invertible, both the generation of new samples and the computation of exact probabilities are possible.
+
+**Strengths:**
+- **Exact Likelihoods:** Unlike VAEs and GANs, flow-based models allow for the exact calculation of the likelihood, which provides a clear training objective.
+- **Reversible Transformations:** The invertibility of the transformations allows for both generation and density estimation.
+- **High-Resolution Outputs:** Flow-based models can generate high-resolution samples, particularly in image generation tasks.
+
+**Weaknesses:**
+- **Model Complexity:** The need for invertible transformations can lead to complex model architectures that require significant computational resources.
+- **Less Efficient Generation:** Compared to GANs, generating samples can be slower, especially if the model depth is high.
+- **Challenges in Capturing Complex Distributions:** Despite their strengths, flow-based models can struggle to capture extremely complex distributions as effectively as GANs or diffusion models.
+
+### 1. Diffusion Models
+
+**Architecture:**
+Diffusion models are generative models that learn to generate data by reversing a diffusion process, which progressively adds noise to the data until it becomes pure noise. The model is trained to learn the reverse of this process, denoising the noisy data step-by-step to generate new samples. The process can be understood as a series of time steps, where noise is added (forward process) and then removed (reverse process).
+
+**Training:**
+Training involves two stages:
+- **Forward Process:** A data sample is gradually perturbed by adding Gaussian noise over a series of time steps.
+- **Reverse Process:** The model learns to denoise the data at each step. It predicts the noise added at each time step so that this noise can be subtracted to recover the original data.
+
+The training objective typically minimizes a weighted sum of reconstruction losses across different time steps.
+
+**Strengths:**
+- **Stable Training:** Diffusion models tend to be more stable to train compared to GANs, with fewer issues like mode collapse.
+- **High-Quality Samples:** They can generate highly detailed and diverse samples, often achieving state-of-the-art results in image generation.
+- **Flexibility:** They can be adapted to a variety of tasks including image, text, and video generation.
+
+**Weaknesses:**
+- **Slow Sampling:** The generation process can be slow since it requires multiple steps to gradually denoise the sample.
+- **Computationally Intensive:** Training can be computationally expensive due to the need to process multiple steps of diffusion.
 
 
-The generator learns to create fake data that resembles the original domain data. The discriminator learns to distinguish between the fake data from the generator and the real data. At first, the discriminator can easily tell the two sets of data apart. As training progresses and the models make adjustments according to the results, the generator improves until the discriminator struggles to easily distinguish the fake from the real data. Through these iterations, GANs achieve a level of realism and authenticity in its output that can fool the human senses, such as videos of destinations that look like real places or photographs of corgis in beachwear that appear to be real dogs.
-
-Applications
-GANs are typically employed for imagery or visual data, including image generation, image enhancement, video predictions and style transfer.
-
-Strengths
-GANs excel at generating high-quality and realistic content, particularly when it comes to images.
-
-Weaknesses
-GANs have been known to be difficult to train due to instability in the interactions of the two submodels. The generator and discriminator can fail to reach an optimal equilibrium or state of convergence, oscillating in their abilities to outperform each other. This instability can lead to mode collapse, which means the generator learns to only create a limited subset of samples from the target distribution rather than the entire distribution. For example, a GAN trained to create cat images may start creating only orange tabby cat images. This limitation in generated samples means a degeneration in the quality and diversity of the output data.
-
-Variational Autoencoder (VAE)
-The second prominent generative model in use today is variational autoencoders. VAEs are a deep generative model that, similarly to GANs, rely on two neural networks to generate data. Traditionally, VAEs work to compress and reconstruct data, which is useful for tasks such as cleaning data and reducing the dimensionality of data sets to, say, improve the performance of an algorithm.
-
-Architecture and training process
-The dual networks, called encoders and decoders, work in tandem to generate an output that is similar to the input. 
-
-
-The encoder compresses the input data (into what’s called the latent space) to optimize for the most efficient representation of the original data while retaining only the most important information. The decoder then reconstructs the input from the compressed representation. The decoder in this way generates content and is able to achieve a high-level of detail to generate specific features.
-
-Applications
-VAEs are great for cleaning noise from images and finding anomalies in data. They are also flexible and customizable to specific tasks compared to other approaches.Today, they are used for anything from image generation to anomaly detection such as in fraud detection for financial institutions.
-
-Strengths
-VAEs learn a probabilistic distribution over latent space, allowing for quantifying uncertainty in data and anomaly detection. They are also easier to train and more stable than GANs.
-
-Weaknesses
-A weakness of VAEs is they tend to produce lower quality content, such as blurry images, compared to other methods like GANs. They also struggle to capture complex and highly structured data.
+Each of these models has distinct advantages and is suited to different types of generative tasks, with ongoing research seeking to address their respective limitations.
